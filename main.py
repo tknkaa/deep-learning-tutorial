@@ -1,17 +1,23 @@
-import tensorflow as tf
-import matplotlib.pyplot as plt
 import numpy as np
-from PIL import Image
+import matplotlib.pylab as plt
 
-(x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
-x_train, x_test = np.array(
-    list(map(lambda img: np.array(img).flatten(), x_train))
-), np.array(list(map(lambda img: np.array(img).flatten(), x_test)))
-""" x_train, x_test = x_train.astype("float32") / 255, x_test.astype("float32") / 255 """
-y_train, y_test = tf.keras.utils.to_categorical(y_train), tf.keras.utils.to_categorical(
-    y_test
-)
 
-img = x_train[0].reshape(28, 28)
-pil_img = Image.fromarray(np.uint8(img))
-pil_img.save("out.png")
+def func1(x):
+    return 0.01 * x**2 + 0.1 * x
+
+
+x = np.arange(0.0, 20.0, 0.1)
+y = func1(x)
+plt.xlabel("x")
+plt.ylabel("y")
+plt.plot(x, y)
+plt.savefig("out.png")
+
+
+def numerical_diff(f, x):
+    h = 1e-4
+    return (f(x + h) - f(x - h)) / (2 * h)
+
+
+print(numerical_diff(func1, 5))
+print(numerical_diff(func1, 10))
