@@ -7,9 +7,6 @@ def func2(x):
 
 
 def numerical_gradient(f, x):
-    original_shape = x.shape
-    x = np.array(x).flatten()
-
     h = 1e-4
     grad = np.zeros_like(x)
 
@@ -21,7 +18,6 @@ def numerical_gradient(f, x):
         f_minus_del = f(x)
         grad[idx] = (f_plus_del - f_minus_del) / (2 * h)
         x[idx] = tmp_val
-    grad = grad.reshape(original_shape)
     return grad
 
 
