@@ -10,7 +10,7 @@ def numerical_gradient(f, x):
     h = 1e-4
     grad = np.zeros_like(x)
 
-    for idx in range(x.size):
+    for idx in range(np.array(x).size):
         tmp_val = x[idx]
         x[idx] = tmp_val + h
         f_plus_del = f(x)
@@ -18,10 +18,15 @@ def numerical_gradient(f, x):
         f_minus_del = f(x)
         grad[idx] = (f_plus_del - f_minus_del) / (2 * h)
         x[idx] = tmp_val
-
     return grad
 
 
-print(numerical_gradient(func2, np.array([3.0, 4.0])))
-print(numerical_gradient(func2, np.array([0.0, 2.0])))
-print(numerical_gradient(func2, np.array([3.0, 0.0])))
+def gradient_descent(f, init_x, lr=0.1, step_num=100):
+    tmp = init_x
+    for _ in range(step_num):
+        grad = numerical_gradient(f, tmp)
+        tmp -= lr * grad
+    return tmp
+
+
+print(gradient_descent(func2, [-3.0, 4.0]))
