@@ -2,22 +2,26 @@ import numpy as np
 import matplotlib.pylab as plt
 
 
-def func1(x):
-    return 0.01 * x**2 + 0.1 * x
+def func2(x):
+    return x[0] * x[0] + x[1] * x[1]
 
 
-x = np.arange(0.0, 20.0, 0.1)
-y = func1(x)
-plt.xlabel("x")
-plt.ylabel("y")
-plt.plot(x, y)
-plt.savefig("out.png")
-
-
-def numerical_diff(f, x):
+def numerical_gradient(f, x):
     h = 1e-4
-    return (f(x + h) - f(x - h)) / (2 * h)
+    grad = np.zeros_like(x)
+
+    for idx in range(x.size):
+        tmp_val = x[idx]
+        x[idx] = tmp_val + h
+        f_plus_del = f(x)
+        x[idx] = tmp_val - h
+        f_minus_del = f(x)
+        grad[idx] = (f_plus_del - f_minus_del) / (2 * h)
+        x[idx] = tmp_val
+
+    return grad
 
 
-print(numerical_diff(func1, 5))
-print(numerical_diff(func1, 10))
+print(numerical_gradient(func2, np.array([3.0, 4.0])))
+print(numerical_gradient(func2, np.array([0.0, 2.0])))
+print(numerical_gradient(func2, np.array([3.0, 0.0])))
